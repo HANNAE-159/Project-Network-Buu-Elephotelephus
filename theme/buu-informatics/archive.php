@@ -14,7 +14,7 @@ buu_page_hero($title, $sub, 'ข่าวสาร');
       <article class="feature">
         <a class="thumb" href="<?php the_permalink(); ?>" tabindex="-1" aria-hidden="true"><?php has_post_thumbnail() ? the_post_thumbnail('large') : print buu_placeholder(); ?></a>
         <div class="body">
-          <div class="meta"><span class="tag"><?php echo esc_html($cats ? $cats[0]->name : 'ข่าวเด่น'); ?></span><time><?php echo esc_html(buu_thai_date()); ?></time></div>
+          <div class="meta"><span class="cat-tag"><?php echo esc_html($cats ? $cats[0]->name : 'ข่าวเด่น'); ?></span><time><?php echo esc_html(buu_thai_date()); ?></time></div>
           <h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
           <p><?php echo esc_html(wp_trim_words(get_the_excerpt(), 34, '…')); ?></p>
           <a class="btn btn-gold btn-sm" href="<?php the_permalink(); ?>">อ่านข่าวนี้</a>
@@ -29,7 +29,7 @@ buu_page_hero($title, $sub, 'ข่าวสาร');
           <a class="pill<?php echo $cur === $c->term_id ? ' on' : ''; ?>" href="<?php echo esc_url(get_category_link($c)); ?>"><?php echo esc_html($c->name); ?></a>
         <?php endforeach; ?>
       </div>
-      <form class="search" role="search" method="get" action="<?php echo esc_url(home_url('/')); ?>">
+      <form class="news-search" role="search" method="get" action="<?php echo esc_url(home_url('/')); ?>">
         <label class="screen-reader-text" for="q" style="position:absolute;left:-999px">ค้นหาข่าวสาร</label>
         <input id="q" type="search" name="s" placeholder="ค้นหาข่าวสาร" value="<?php echo esc_attr(get_search_query()); ?>">
         <input type="hidden" name="post_type" value="post">

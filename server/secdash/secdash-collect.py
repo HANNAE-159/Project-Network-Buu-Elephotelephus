@@ -127,7 +127,7 @@ def collect_nginx(since, events, hourly):
                 hourly[hk]["requests"] += 1
                 status = int(status)
                 STATUS_7D[f"{status // 100}xx"] += 1
-                if t >= since24: STATUS_24H[f"{status // 100}xx"] += 1
+                if t >= since24: STATUS_24H[f"{status // 100}xx"] += 1   # ช่วงเดียวกับ requests_24h (ย้อนหลัง 24 ชม. นับจากตอนรัน)
                 if status == 404: per_ip_404[ip] += 1
                 found = []
                 for typ, _, _, rx in RULES_C:
@@ -455,7 +455,7 @@ def main():
         "generated": NOW.timestamp(),
         "window_days": WINDOW_DAYS,
         "kpi": {
-            "requests_24h": sum(h["requests"] for h in timeline),
+            "requests_24h": sum(STATUS_24H.values()),   # ใช้ช่วงเวลาเดียวกับ status_24h ตัวเลขจึงรวมกันได้ตรง
             "attacks_24h": sum(v for k, v in c24.items() if TYPE_INFO.get(k, ("", 0))[1] > 0),
             "blocked_24h": c24.get("geo_block", 0),
             "banned_now": len(banned_set),

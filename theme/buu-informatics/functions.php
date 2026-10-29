@@ -1,6 +1,6 @@
 <?php
 if (!defined('ABSPATH')) exit;
-define('BUU_VER', '3.7.0');
+define('BUU_VER', '3.7.1');
 require_once __DIR__ . '/inc/content.php';
 require_once __DIR__ . '/inc/import.php';
 require_once __DIR__ . '/inc/secdash.php';
@@ -185,7 +185,7 @@ function buu_news_card() {
             <?php has_post_thumbnail() ? the_post_thumbnail('buu-card') : print buu_placeholder(); ?>
         </a>
         <div class="body">
-            <div class="meta"><span class="tag"><?php echo esc_html($cat); ?></span><time datetime="<?php echo esc_attr(get_the_date('c')); ?>"><?php echo esc_html(buu_thai_date()); ?></time></div>
+            <div class="meta"><span class="cat-tag"><?php echo esc_html($cat); ?></span><time datetime="<?php echo esc_attr(get_the_date('c')); ?>"><?php echo esc_html(buu_thai_date()); ?></time></div>
             <h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
             <p><?php echo esc_html(wp_trim_words(get_the_excerpt(), 26, '…')); ?></p>
             <a class="link-more" href="<?php the_permalink(); ?>">อ่านรายละเอียด</a>

@@ -1,0 +1,101 @@
+{
+  "site": "https://elephotelephus.site/",
+  "timezone": "Asia/Bangkok",
+  "responsive": {
+    "browser": "Chromium in-app browser on Windows",
+    "date": "2026-10-29",
+    "physical_mobile": false,
+    "scope": "homepage and mobile menu",
+    "desktop": {
+      "viewport": [
+        1440,
+        900
+      ],
+      "client_width": 1425,
+      "scroll_width": 1425,
+      "broken_images": 0
+    },
+    "mobile": {
+      "viewport": [
+        390,
+        844
+      ],
+      "client_width": 375,
+      "scroll_width": 375,
+      "broken_images": 0,
+      "menu_open_and_close": true
+    }
+  },
+  "import_test": {
+    "started_at": "2026-10-29T16:32:24+00:00",
+    "method": "WP-CLI eval-file: buu_import_news()",
+    "before": {
+      "posts": 111,
+      "imported_posts": 101,
+      "duplicate_source_urls": 0
+    },
+    "runs": [
+      {
+        "run": 1,
+        "result": {
+          "new": 0,
+          "skipped": 100,
+          "pending": 0,
+          "error": ""
+        },
+        "counts_after": {
+          "posts": 111,
+          "imported_posts": 101,
+          "duplicate_source_urls": 0
+        },
+        "finished_at": "2026-10-29T16:32:28+00:00"
+      },
+      {
+        "run": 2,
+        "result": {
+          "new": 0,
+          "skipped": 100,
+          "pending": 0,
+          "error": ""
+        },
+        "counts_after": {
+          "posts": 111,
+          "imported_posts": 101,
+          "duplicate_source_urls": 0
+        },
+        "finished_at": "2026-10-29T16:32:32+00:00"
+      }
+    ],
+    "finished_at": "2026-10-29T16:32:32+00:00"
+  },
+  "dashboard": {
+    "generated_at": "2026-10-29T23:32:58.267464+07:00",
+    "kpi": {
+      "requests_24h": 1818,
+      "attacks_24h": 7732,
+      "blocked_24h": 6367,
+      "banned_now": 0,
+      "ssh_fail_24h": 182,
+      "wp_fail_24h": 733,
+      "unique_attackers_7d": 1161,
+      "trusted_ips": 6
+    },
+    "http_status_24h": {
+      "2xx": 1290,
+      "3xx": 25,
+      "4xx": 503
+    },
+    "http_total": 1818,
+    "firewall": {
+      "dropped_pkts": 11014,
+      "dropped_bytes": 620581,
+      "accepted_th_pkts": 190,
+      "entries": 1167,
+      "active": true,
+      "blocked_ips_7d": 1109
+    },
+    "collector_sha256": "21ee2b5d8877572427f9e8bc6072b66230159a0015ae33dd80264ec7e73ba10d",
+    "new_dashboard_screenshot": false,
+    "ai_result_is_cached": true
+  }
+}

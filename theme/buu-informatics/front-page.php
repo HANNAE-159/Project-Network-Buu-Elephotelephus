@@ -176,7 +176,7 @@ $icon = function ($n) { echo buu_icon($n); }; // phpcs:ignore -- static svg from
         <article class="news-card">
           <a class="thumb" href="<?php echo esc_url($fn['link']); ?>" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true"><?php if (!empty($fn['img'])) : ?><img src="<?php echo esc_url($fn['img']); ?>" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"><?php else : echo buu_placeholder(); /* phpcs:ignore -- static markup */ endif; ?></a>
           <div class="body">
-            <div class="meta"><span class="tag"><?php echo esc_html($fn['cat']); ?></span><?php if ($fn['date']) : ?><time datetime="<?php echo esc_attr(gmdate('c', $fn['date'])); ?>"><?php echo esc_html(buu_thai_date_ts($fn['date'])); ?></time><?php endif; ?></div>
+            <div class="meta"><span class="cat-tag"><?php echo esc_html($fn['cat']); ?></span><?php if ($fn['date']) : ?><time datetime="<?php echo esc_attr(gmdate('c', $fn['date'])); ?>"><?php echo esc_html(buu_thai_date_ts($fn['date'])); ?></time><?php endif; ?></div>
             <h3><a href="<?php echo esc_url($fn['link']); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html($fn['title']); ?></a></h3>
             <p><?php echo esc_html($fn['excerpt']); ?></p>
             <a class="link-more" href="<?php echo esc_url($fn['link']); ?>" target="_blank" rel="noopener noreferrer">อ่านต่อที่เว็บคณะ</a>

@@ -1,0 +1,23 @@
+# ห้ามมีความลับใน repo
+*.env
+ai.env
+wp-credentials.txt
+wp-config.php
+*.pem
+*.key
+id_*
+!*.pub
+# ไฟล์ระบบ / build
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
+docs/build/
+*.aux
+*.log
+*.out
+*.toc
+docs/latex/main.pdf
+docs/latex/chapters/
+*.lof
+*.lot

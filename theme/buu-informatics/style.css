@@ -1,7 +1,7 @@
 /*
 Theme Name: BUU Computer Science
 Description: ธีมเว็บไซต์โปรโมทหลักสูตรวิทยาการคอมพิวเตอร์ คณะวิทยาการสารสนเทศ มหาวิทยาลัยบูรพา (อิงดีไซน์ Figma ของกลุ่ม)
-Version: 3.7.0
+Version: 3.7.1
 Requires at least: 6.0
 Requires PHP: 7.4
 Text Domain: buu-if
@@ -236,7 +236,7 @@ a:hover>.link-more::after,.link-more:hover::after{transform:translateX(4px)}
 .ph-card b{position:absolute;right:16px;top:14px;width:22px;height:22px;border-radius:50%;background:var(--gold)}
 .news-card .body{padding:20px 22px 22px;display:flex;flex-direction:column;flex:1}
 .meta{display:flex;align-items:center;gap:12px;font-size:.82rem;color:var(--muted);margin-bottom:10px}
-.tag{background:var(--sky);color:var(--blue);padding:2px 12px;border-radius:999px;font-weight:600;font-size:.76rem}
+.cat-tag{background:var(--sky);color:var(--blue);padding:2px 12px;border-radius:999px;font-weight:600;font-size:.76rem}
 .news-card h3{font-size:1.08rem;line-height:1.45;margin-bottom:.5em}
 .news-card h3 a{color:var(--navy)}.news-card h3 a:hover{color:var(--blue)}
 .news-card p{color:var(--muted);font-size:.92rem;line-height:1.65;flex:1}
@@ -245,15 +245,15 @@ a:hover>.link-more::after,.link-more:hover::after{transform:translateX(4px)}
 .feature .thumb{aspect-ratio:auto;min-height:300px}
 .feature .body{padding:40px;display:flex;flex-direction:column;justify-content:center;align-items:flex-start}
 .feature h2{font-size:clamp(1.4rem,2.4vw,1.9rem);color:#fff}.feature h2 a{color:#fff}
-.feature p{color:#c3d6ea}.feature .meta{color:#c3d6ea}.feature .tag{background:var(--blue-2);color:#fff}
+.feature p{color:#c3d6ea}.feature .meta{color:#c3d6ea}.feature .cat-tag{background:var(--blue-2);color:#fff}
 .filters{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:30px;align-items:center;justify-content:space-between}
 .pills{display:flex;gap:8px;flex-wrap:wrap}
 .pill{padding:.4rem 1.1rem;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--ink);font-size:.88rem}
 .pill:hover{border-color:var(--blue);color:var(--blue)}.pill.on{background:var(--blue);border-color:var(--blue);color:#fff}
-.search{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;min-width:260px;background:#fff}
-.search input{border:0;padding:.6rem 1rem;font:inherit;font-size:.92rem;flex:1;min-width:0;background:transparent;color:var(--ink)}
-.search input:focus{outline:none}.search:focus-within{border-color:var(--blue)}
-.search button{border:0;background:var(--blue);color:#fff;padding:0 1.2rem;font:600 .88rem var(--f-head);cursor:pointer}
+.news-search{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;min-width:260px;background:#fff}
+.news-search input{border:0;padding:.6rem 1rem;font:inherit;font-size:.92rem;flex:1;min-width:0;background:transparent;color:var(--ink)}
+.news-search input:focus{outline:none}.news-search:focus-within{border-color:var(--blue)}
+.news-search button{border:0;background:var(--blue);color:#fff;padding:0 1.2rem;font:600 .88rem var(--f-head);cursor:pointer}
 .pagination{display:flex;gap:8px;justify-content:center;margin-top:48px;flex-wrap:wrap}
 .pagination .page-numbers{padding:.45rem 1rem;border:1px solid var(--line);border-radius:999px;color:var(--ink)}
 .pagination .current{background:var(--blue);color:#fff;border-color:var(--blue)}
@@ -363,7 +363,7 @@ a:hover>.link-more::after,.link-more:hover::after{transform:translateX(4px)}
 @media (max-width:620px){
   .builds,.careers,.years,.rounds{grid-template-columns:1fr}
   .partners{grid-template-columns:1fr 1fr}.foot-grid{grid-template-columns:1fr}
-  .brand-text{display:none}.search{min-width:0;width:100%}.filters{flex-direction:column;align-items:stretch}
+  .brand-text{display:none}.news-search{min-width:0;width:100%}.filters{flex-direction:column;align-items:stretch}
   .apply-box{padding:24px}.others{padding:22px}
   .mini-stats{width:100%}.mini-stats div{flex:1;padding:14px 8px}
   .year-card{height:auto}

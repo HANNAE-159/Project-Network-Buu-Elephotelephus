@@ -3,13 +3,14 @@
 
 % ---------------------------------------------------------------- ฟอนต์ไทย
 \usepackage{fontspec}
-\IfFontExistsTF{Laksaman}{%                    % Laksaman = ฟอนต์แบบ TH Sarabun จากชุด fonts-thai-tlwg
-  \setmainfont{Laksaman}[Scale=1.32]}{%
-  \setmainfont{Loma}[Scale=1.0]}
-\IfFontExistsTF{TlwgMono}{\setmonofont{TlwgMono}[Scale=0.95]}{\setmonofont{Loma}[Scale=0.9]}
+% Sarabun (OFL, อยู่ในโฟลเดอร์ ../fonts) วางวรรณยุกต์/สระบนถูกตำแหน่ง
+% (Laksaman และ TlwgMono ใน XeTeX วางวรรณยุกต์เลื่อนไปทางขวา จึงไม่ใช้)
+\setmainfont{Sarabun}[Path=../fonts/,UprightFont=*-Regular,BoldFont=*-Bold,
+  ItalicFont=*-Italic,BoldItalicFont=*-BoldItalic,Script=Thai,Scale=1.05]
+\setmonofont{TlwgTypo}[Script=Thai,Scale=0.95]  % ฟอนต์ความกว้างคงที่ที่แสดงภาษาไทยถูกต้อง (fonts-thai-tlwg)
 \XeTeXlinebreaklocale "th"                     % ตัดคำภาษาไทยด้วย ICU
 \XeTeXlinebreakskip = 0pt plus 1pt
-\linespread{1.15}
+\linespread{1.25}                              % เว้นบรรทัดให้สระบน/ล่างไม่ชนกัน
 
 % ---------------------------------------------------------------- หน้ากระดาษ
 \usepackage[a4paper,top=2.5cm,bottom=2.5cm,left=3cm,right=2.5cm]{geometry}
@@ -29,7 +30,7 @@
 \clubpenalty=10000 \widowpenalty=10000         % ไม่ทิ้งบรรทัดเดียวไว้ท้าย/ต้นหน้า
 \raggedbottom                                   % ไม่ยืดช่องว่างแนวตั้งให้เต็มหน้า
 \emergencystretch=3em
-\setlength{\LTpre}{6pt}\setlength{\LTpost}{8pt}
+\setlength{\LTpre}{12pt}\setlength{\LTpost}{8pt}
 \renewcommand{\arraystretch}{1.25}
 \renewcommand{\topfraction}{0.9}\renewcommand{\bottomfraction}{0.8}
 \renewcommand{\textfraction}{0.1}\renewcommand{\floatpagefraction}{0.75}
@@ -49,10 +50,25 @@
 \renewcommand{\cfttoctitlefont}{\hfill\Large\bfseries}\renewcommand{\cftaftertoctitle}{\hfill}
 \setlength{\cftbeforetoctitleskip}{0pt}\setlength{\cftaftertoctitleskip}{18pt}
 \renewcommand{\cftchapleader}{\cftdotfill{\cftdotsep}}
+% สารบัญภาพ / สารบัญตาราง (หัวกึ่งกลางแบบเดียวกับสารบัญ รายการชิดซ้าย)
+\renewcommand{\listfigurename}{สารบัญภาพ}\renewcommand{\listtablename}{สารบัญตาราง}
+\renewcommand{\cftloftitlefont}{\hfill\Large\bfseries}\renewcommand{\cftafterloftitle}{\hfill}
+\renewcommand{\cftlottitlefont}{\hfill\Large\bfseries}\renewcommand{\cftafterlottitle}{\hfill}
+\setlength{\cftbeforeloftitleskip}{0pt}\setlength{\cftafterloftitleskip}{18pt}
+\setlength{\cftbeforelottitleskip}{0pt}\setlength{\cftafterlottitleskip}{18pt}
+\setlength{\cftfigindent}{0pt}\setlength{\cfttabindent}{0pt}
+\setlength{\cftbeforefigskip}{3pt}\setlength{\cftbeforetabskip}{3pt}
 
+\setlength{\headheight}{15pt}
 \pagestyle{fancy}\fancyhf{}\fancyhead[R]{\thepage}\renewcommand{\headrulewidth}{0pt}
 \fancypagestyle{plain}{\fancyhf{}\fancyhead[R]{\thepage}}
 
+% \keepspace{ความสูง}: ขึ้นหน้าใหม่เฉพาะเมื่อที่เหลือไม่พอ (ต่างจาก \needspace ที่ใส่ \penalty-100
+% ซึ่งทำให้ LaTeX ชอบตัดหน้าตรงนั้นแม้ที่ยังพอ จนหน้าแรกของบทเหลือแค่ชื่อบท)
+\makeatletter
+\newcommand{\keepspace}[1]{\par\begingroup\dimen@=#1\relax\dimen@ii=\pagegoal\advance\dimen@ii-\pagetotal
+  \ifdim\dimen@>\dimen@ii\ifdim\dimen@ii>\z@\vfil\fi\break\fi\endgroup}
+\makeatother
 \setlength{\RaggedRightParindent}{1.5em}
 \begin{document}
 \RaggedRight
@@ -60,15 +76,18 @@
 % ---------------------------------------------------------------- ปก
 \begin{titlepage}
 \centering
+\vspace*{-0.8cm}
+\includegraphics[height=3cm]{figures/buu-logo.png}\par
+\vspace{0.8cm}
 {\Large\bfseries รายงานโครงงาน\par}
-\vspace{1.2cm}
+\vspace{0.9cm}
 {\Large\bfseries การติดตั้งและรักษาความปลอดภัย\\[4pt]
 เว็บไซต์ WordPress บนคลาวด์\\[4pt]
 เพื่อประชาสัมพันธ์สาขาวิชา\\[4pt]
 วิทยาการคอมพิวเตอร์\par}
 \vspace{0.6cm}
 {\large https://elephotelephus.site\par}
-\vspace{1.6cm}
+\vspace{1.2cm}
 {\large จัดทำโดย\par}
 \vspace{0.3cm}
 \begin{tabular}{lll}
@@ -91,9 +110,14 @@
 
 % ---------------------------------------------------------------- ส่วนหน้า
 \pagenumbering{roman}
+\input{chapters/01a-abstract}
 \input{chapters/01-preface}
 \clearpage
 \tableofcontents
+\clearpage
+\listoftables
+\clearpage
+\listoffigures
 \clearpage
 \pagenumbering{arabic}
 
