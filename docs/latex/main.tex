@@ -1,0 +1,85 @@
+% รายงานโครงงาน — คอมไพล์ด้วย XeLaTeX (ดู ../Dockerfile และ ../build.sh)
+\documentclass[a4paper,12pt,oneside]{report}
+
+% ---------------------------------------------------------------- ฟอนต์ไทย
+\usepackage{fontspec}
+\IfFontExistsTF{Laksaman}{%                    % Laksaman = ฟอนต์แบบ TH Sarabun จากชุด fonts-thai-tlwg
+  \setmainfont{Laksaman}[Scale=1.32]}{%
+  \setmainfont{Loma}[Scale=1.0]}
+\IfFontExistsTF{TlwgMono}{\setmonofont{TlwgMono}[Scale=0.95]}{\setmonofont{Loma}[Scale=0.9]}
+\XeTeXlinebreaklocale "th"                     % ตัดคำภาษาไทยด้วย ICU
+\XeTeXlinebreakskip = 0pt plus 1pt
+\linespread{1.15}
+
+% ---------------------------------------------------------------- หน้ากระดาษ
+\usepackage[a4paper,top=2.5cm,bottom=2.5cm,left=3cm,right=2.5cm]{geometry}
+\usepackage{amssymb,graphicx,calc,array,longtable,booktabs,xcolor,fvextra,fancyhdr,titlesec,tocloft}
+\usepackage[hidelinks]{hyperref}
+\graphicspath{{../}}
+\setlength{\parindent}{1.5em}
+\setlength{\parskip}{4pt}
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\def\LTcaptype{none}
+
+% หัวบท: ข้อความบทอยู่ในหัวข้อแล้ว (เช่น "บทที่ 1 บทนำ") จึงไม่พิมพ์คำว่า Chapter
+\titleformat{name=\chapter,numberless}{\centering\bfseries\huge}{}{0pt}{}
+\titlespacing*{\chapter}{0pt}{0pt}{18pt}
+\titleformat{name=\section,numberless}{\bfseries\Large}{}{0pt}{}
+\titleformat{name=\subsection,numberless}{\bfseries\large}{}{0pt}{}
+\renewcommand{\contentsname}{สารบัญ}
+\renewcommand{\cftchapleader}{\cftdotfill{\cftdotsep}}
+
+\pagestyle{fancy}\fancyhf{}\fancyhead[R]{\thepage}\renewcommand{\headrulewidth}{0pt}
+\fancypagestyle{plain}{\fancyhf{}\fancyhead[R]{\thepage}}
+
+\begin{document}
+
+% ---------------------------------------------------------------- ปก
+\begin{titlepage}
+\centering
+{\Large\bfseries รายงานโครงงาน\par}
+\vspace{1.2cm}
+{\LARGE\bfseries การติดตั้งและรักษาความปลอดภัยเว็บไซต์ WordPress บนคลาวด์\\[4pt]
+เพื่อประชาสัมพันธ์สาขาวิชาวิทยาการคอมพิวเตอร์\par}
+\vspace{0.6cm}
+{\large https://elephotelephus.site\par}
+\vspace{1.6cm}
+{\large จัดทำโดย\par}
+\vspace{0.3cm}
+\begin{tabular}{lll}
+1. & [ชื่อ--นามสกุล] & [รหัสนิสิต] \\
+2. & [ชื่อ--นามสกุล] & [รหัสนิสิต] \\
+3. & [ชื่อ--นามสกุล] & [รหัสนิสิต] \\
+4. & [ชื่อ--นามสกุล] & [รหัสนิสิต] \\
+5. & [ชื่อ--นามสกุล] & [รหัสนิสิต] \\
+6. & [ชื่อ--นามสกุล] & [รหัสนิสิต] \\
+7. & [ชื่อ--นามสกุล] & [รหัสนิสิต] \\
+\end{tabular}
+\vfill
+{\large เสนอ [ชื่ออาจารย์ผู้สอน]\par}
+\vspace{0.6cm}
+{\large รายงานนี้เป็นส่วนหนึ่งของรายวิชา [รหัสวิชา ชื่อวิชา]\\
+คณะวิทยาการสารสนเทศ มหาวิทยาลัยบูรพา\\
+ภาคเรียนที่ [\_\_] ปีการศึกษา [\_\_\_\_]\par}
+\end{titlepage}
+
+% ---------------------------------------------------------------- ส่วนหน้า
+\pagenumbering{roman}
+\input{chapters/01-preface}
+\clearpage
+\tableofcontents
+\clearpage
+\pagenumbering{arabic}
+
+% ---------------------------------------------------------------- เนื้อหา
+\input{chapters/02-ch1-introduction}
+\input{chapters/03-ch2-background}
+\input{chapters/04-ch3-design}
+\input{chapters/05-ch4-implementation}
+\input{chapters/06-ch5-secdash-ai}
+\input{chapters/07-ch6-testing}
+\input{chapters/08-ch7-conclusion}
+\input{chapters/09-references}
+\input{chapters/10-appendix}
+
+\end{document}

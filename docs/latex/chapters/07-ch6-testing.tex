@@ -1,0 +1,62 @@
+\chapter*{บทที่ 6 การทดสอบและผลการดำเนินงาน}\addcontentsline{toc}{chapter}{บทที่ 6 การทดสอบและผลการดำเนินงาน}
+
+ทุกข้อกำหนดของโจทย์ผ่านการทดสอบ ตารางต่อไปนี้สรุปวิธีทดสอบและผลที่ได้ ภาพหน้าจอประกอบอยู่ในภาคผนวก ขค.
+
+\section*{6.1 ผลการทดสอบตามข้อกำหนด}\addcontentsline{toc}{section}{6.1 ผลการทดสอบตามข้อกำหนด}
+
+ตารางที่ 6.1 ผลการทดสอบ
+
+\begin{longtable}[]{@{}>{\raggedright\arraybackslash}p{0.109\linewidth - 2\tabcolsep}>{\raggedright\arraybackslash}p{0.172\linewidth - 2\tabcolsep}>{\raggedright\arraybackslash}p{0.344\linewidth - 2\tabcolsep}>{\raggedright\arraybackslash}p{0.344\linewidth - 2\tabcolsep}@{}}
+\toprule\noalign{}
+ขั้น & สิ่งที่ทดสอบ & วิธีทดสอบ & ผล \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1 & เข้าเว็บด้วย HTTPS & เปิด \url{https://elephotelephus.site} และดูใบรับรองในเบราว์เซอร์ & ผ่าน ใบรับรองจาก Let's Encrypt และ http:// ถูกส่งต่อไป https:// \\
+1 & ปิด root login & ssh root@เซิร์ฟเวอร์ & ผ่าน ได้ Permission denied \\
+1 & ปิดรหัสผ่าน ใช้กุญแจเท่านั้น & sudo sshd -T กรอง permitrootlogin, passwordauthentication, authenticationmethods & ผ่าน ค่าเป็น no, no, publickey \\
+1 & เวอร์ชันซอฟต์แวร์ & ดูไฟล์ versions.txt ที่ setup.sh สร้าง & ได้เวอร์ชันตามตารางที่ 3.1 \\
+1 & fail2ban ทำงาน & sudo fail2ban-client status & ผ่าน มี 3 jail: sshd, wordpress-login, nginx-limit-req \\
+2 & บล็อกต่างประเทศ & ทดสอบจากเครื่องต่างประเทศหลายจุดด้วย check-host.net & ผ่าน เครื่องต่างประเทศหมดเวลา (timeout) ทั้งหมด \\
+2 & เข้าได้จากไทย & เปิดเว็บและ SSH จากเน็ตบ้าน หอพัก และมือถือในไทย & ผ่าน \\
+2 & บันทึกการบล็อก & sudo geo-firewall.sh status และ log GEO-BLOCK & ผ่าน มีช่วง IP ไทย 1,167 ช่วง และมี log ของ IP ต่างประเทศ \\
+3 & เว็บไซต์บนมือถือและคอมพิวเตอร์ & เปิดทุกหน้าบนหน้าจอหลายขนาด & ผ่าน \\
+3 & นำเข้าข่าวคณะ & สั่งนำเข้าแล้วตรวจตาราง wp\_posts ด้วย DBeaver & ผ่าน ข่าวถูกบันทึกพร้อมลิงก์ต้นทาง และไม่ซ้ำ \\
+เพิ่มเติม & ฐานข้อมูลไม่เปิดสู่ภายนอก & sudo ss -ltnp กรอง 3306 & ผ่าน ฟังเฉพาะ 127.0.0.1:3306 \\
+เพิ่มเติม & dashboard และ AI & รัน secdash-collect.py แล้วเปิดหน้า ความปลอดภัย & ผ่าน แสดงข้อมูลจริงและสรุปภาษาไทยจาก Gemini \\
+\end{longtable}
+
+\section*{6.2 การโจมตีที่ตรวจพบจริง}\addcontentsline{toc}{section}{6.2 การโจมตีที่ตรวจพบจริง}
+
+ข้อมูลจาก dashboard เมื่อวันที่ 26 ตุลาคม 2569 (ย้อนหลัง 7 วัน) {[}อัปเดตตัวเลขก่อนส่ง{]}
+
+\begin{itemize}
+\tightlist
+\item
+  พบ IP น่าสงสัย 11 หมายเลข และระบบแยก IP ของทีมที่ login สำเร็จออก 5 หมายเลข
+\item
+  อันดับ 1 คือ 130.12.180.117 (ต่างประเทศ) สแกนหาไฟล์ลับ 61 ครั้ง เช่น .env และไฟล์คอนฟิก Docker คะแนนความเสี่ยง 244 ไฟล์เหล่านี้ถูก nginx ปฏิเสธหรือไม่มีอยู่บนเซิร์ฟเวอร์
+\item
+  พบการไล่หาชื่อผู้ใช้ผ่าน REST API (/wp/v2/users) และ author query จาก IP ที่ไม่ใช่ทีม
+\item
+  ใน 24 ชั่วโมงก่อนตรวจ ไม่พบ SSH หรือ WordPress login ที่ไม่สำเร็จ (ค่าเป็น 0 ทั้งคู่)
+\end{itemize}
+
+\section*{6.3 การตรวจสอบคำแนะนำของ AI}\addcontentsline{toc}{section}{6.3 การตรวจสอบคำแนะนำของ AI}
+
+AI สรุปว่า ``พบการสแกนหาไฟล์ตั้งค่าความลับตระกูล .env และการค้นหาชื่อผู้ใช้ WordPress จาก IP ต่างประเทศอย่างต่อเนื่อง'' คณะผู้จัดทำนำคำแนะนำมาตรวจกับระบบจริงก่อนนำไปใช้
+
+\begin{longtable}[]{@{}>{\raggedright\arraybackslash}p{0.399\linewidth - 2\tabcolsep}>{\raggedright\arraybackslash}p{0.571\linewidth - 2\tabcolsep}@{}}
+\toprule\noalign{}
+คำแนะนำของ AI & ผลการตรวจ \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+ตั้งค่าเว็บเซิร์ฟเวอร์ให้ปฏิเสธไฟล์ .env & ทำไว้แล้วตั้งแต่ติดตั้ง (location \textasciitilde{} /.) \\
+บล็อก IP ที่สแกน และพิจารณา GeoIP blocking & มี geo-firewall และ fail2ban อยู่แล้ว คำแนะนำนี้เกิดจาก AI ไม่ทราบบริบท \\
+ปิดการไล่หาชื่อผู้ใช้และจำกัด REST API & ถูกต้อง ยังไม่ได้ปิด เป็นงานที่ควรทำต่อ (บทที่ 7) \\
+\end{longtable}
+
+คณะผู้จัดทำจึงปรับให้สคริปต์ส่งรายการมาตรการที่มีอยู่ และ status code ของแต่ละคำขอให้ AI ด้วย ผลคือ AI ต้องใช้ควบคู่กับการตัดสินใจของคน ไม่ควรเชื่อตามทุกข้อ
