@@ -1,4 +1,4 @@
-\chapter*{บทที่ 7 สรุป ปัญหา และข้อเสนอแนะ}\addcontentsline{toc}{chapter}{บทที่ 7 สรุป ปัญหา และข้อเสนอแนะ}
+\thaichapter{บทที่ 7}{สรุป ปัญหา และข้อเสนอแนะ}\addcontentsline{toc}{chapter}{บทที่ 7 สรุป ปัญหา และข้อเสนอแนะ}
 
 \section*{7.1 สรุปผล}\addcontentsline{toc}{section}{7.1 สรุปผล}
 
@@ -8,9 +8,9 @@
 
 \section*{7.2 ปัญหาและแนวทางแก้ไข}\addcontentsline{toc}{section}{7.2 ปัญหาและแนวทางแก้ไข}
 
-ตารางที่ 7.1 ปัญหาที่พบระหว่างทำโครงงาน
+\needspace{7\baselineskip}\noindent\textbf{ตารางที่ 7.1} ปัญหาที่พบระหว่างทำโครงงาน
 
-\begin{longtable}[]{@{}>{\raggedright\arraybackslash}p{0.242\linewidth - 2\tabcolsep}>{\raggedright\arraybackslash}p{0.364\linewidth - 2\tabcolsep}>{\raggedright\arraybackslash}p{0.364\linewidth - 2\tabcolsep}@{}}
+\begingroup\small\begin{longtable}[]{@{}>{\raggedright\arraybackslash}p{0.294\linewidth - 2\tabcolsep}>{\raggedright\arraybackslash}p{0.338\linewidth - 2\tabcolsep}>{\raggedright\arraybackslash}p{0.338\linewidth - 2\tabcolsep}@{}}
 \toprule\noalign{}
 ปัญหา & สาเหตุ & วิธีแก้ \\
 \midrule\noalign{}
@@ -27,7 +27,11 @@ wp-cli สร้าง rewrite rule ไม่ได้ & สิทธิ์ไ�
 IP ของทีมถูกนับเป็นผู้โจมตี & ตัวแก้ไขบทความเรียก API รายชื่อผู้ใช้ & IP ที่ login สำเร็จถือเป็นคนในทีม \\
 เรียก AI ไม่สำเร็จ (404, 503, timeout) & โมเดลเดิมถูกปลด เซิร์ฟเวอร์ AI ไม่ว่าง และรุ่นใหม่ตอบช้า & เลือกรุ่นอัตโนมัติ รอนานขึ้น และสลับรุ่นเมื่อมีปัญหา \\
 DBeaver ต่อฐานข้อมูลไม่ได้ & ตั้งให้ต่อตรงพอร์ต 3306 ซึ่งไม่ได้เปิด & ใช้ SSH tunnel และตั้ง allowPublicKeyRetrieval \\
-\end{longtable}
+ไฟล์ WordPress core ไม่ตรงต้นฉบับ (php-ai-client) & WordPress อัปเดตตัวเองจาก 7.1.3 เป็น 7.1.4 ไม่ครบ ไฟล์สองเวอร์ชันปนกัน & ตรวจว่าไม่มีโค้ดอันตราย แล้วดาวน์โหลด core เวอร์ชันเดิมทับใหม่ (wp core download -\/-force -\/-skip-content) ผลตรวจผ่าน \\
+geo-firewall ปิดโดยไม่ตั้งใจ & สั่ง apply ใหม่แต่ไม่ได้ confirm ภายใน 3 นาที ระบบย้อนกลับเอง & ตรวจพบจาก security-check.sh แล้วเปิดใหม่ทันที \\
+firewall บล็อก IP ของเซิร์ฟเวอร์เอง & WordPress เรียกตัวเองผ่านโดเมน ซึ่งวนกลับมาด้วย IP สาธารณะของเครื่อง & geo-firewall อ่าน IP ของเครื่องจาก metadata ของ Google Cloud แล้วอนุญาตอัตโนมัติ \\
+dashboard ไม่เห็น log ของ SSH และ firewall & systemd บน Ubuntu 24.04 พิมพ์เวลาแบบ +07:00 แต่ตัวเก็บข้อมูลรองรับแค่ +0700 & แก้ให้อ่านเวลาได้ทั้งสองแบบ หลังแก้เห็น SSH ล้มเหลว 212 ครั้งและ IP ต่างประเทศ 691 IP \\
+\end{longtable}\endgroup
 
 \section*{7.3 ข้อจำกัด}\addcontentsline{toc}{section}{7.3 ข้อจำกัด}
 

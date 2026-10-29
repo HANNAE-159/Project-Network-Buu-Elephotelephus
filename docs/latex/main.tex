@@ -13,54 +13,80 @@
 
 % ---------------------------------------------------------------- หน้ากระดาษ
 \usepackage[a4paper,top=2.5cm,bottom=2.5cm,left=3cm,right=2.5cm]{geometry}
-\usepackage{amssymb,graphicx,calc,array,longtable,booktabs,xcolor,fvextra,fancyhdr,titlesec,tocloft}
+\usepackage{amssymb,graphicx,calc,array,longtable,booktabs,xcolor,fvextra,fancyhdr,titlesec,tocloft,float,needspace}
+\usepackage[font=small,labelformat=empty,skip=6pt,justification=centering]{caption}
+\usepackage{ragged2e}
+\usepackage{xurl}
 \usepackage[hidelinks]{hyperref}
+\urlstyle{same}
 \graphicspath{{../}}
 \setlength{\parindent}{1.5em}
-\setlength{\parskip}{4pt}
-\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
-\def\LTcaptype{none}
+\setlength{\parskip}{3pt}
+\providecommand{\tightlist}{\setlength{\itemsep}{1pt}\setlength{\parskip}{0pt}}
 
-% หัวบท: ข้อความบทอยู่ในหัวข้อแล้ว (เช่น "บทที่ 1 บทนำ") จึงไม่พิมพ์คำว่า Chapter
-\titleformat{name=\chapter,numberless}{\centering\bfseries\huge}{}{0pt}{}
-\titlespacing*{\chapter}{0pt}{0pt}{18pt}
-\titleformat{name=\section,numberless}{\bfseries\Large}{}{0pt}{}
-\titleformat{name=\subsection,numberless}{\bfseries\large}{}{0pt}{}
+% ---------------------------------------------------------------- จัดหน้าให้เรียบร้อย
+\hyphenpenalty=10000 \exhyphenpenalty=10000    % ไม่ตัดคำอังกฤษด้วยขีด (เช่น Word-Press)
+\clubpenalty=10000 \widowpenalty=10000         % ไม่ทิ้งบรรทัดเดียวไว้ท้าย/ต้นหน้า
+\raggedbottom                                   % ไม่ยืดช่องว่างแนวตั้งให้เต็มหน้า
+\emergencystretch=3em
+\setlength{\LTpre}{6pt}\setlength{\LTpost}{8pt}
+\renewcommand{\arraystretch}{1.25}
+\renewcommand{\topfraction}{0.9}\renewcommand{\bottomfraction}{0.8}
+\renewcommand{\textfraction}{0.1}\renewcommand{\floatpagefraction}{0.75}
+\setcounter{topnumber}{3}\setcounter{totalnumber}{4}
+
+% หัวบท: "บทที่ N" บรรทัดบน ชื่อบทบรรทัดล่าง กึ่งกลาง (แบบรายงานไทย)
+\newcommand{\thaichapter}[2]{%
+  \clearpage\thispagestyle{plain}%
+  {\centering\bfseries\Large\ifx&#1&\else #1\par\vspace{4pt}\fi #2\par}%
+  \vspace{18pt}\phantomsection}
+\titleformat{name=\section,numberless}{\raggedright\bfseries\large}{}{0pt}{}
+\titlespacing*{\section}{0pt}{14pt}{6pt}
+\titleformat{name=\subsection,numberless}{\raggedright\bfseries\normalsize}{}{0pt}{}
+\titlespacing*{\subsection}{0pt}{10pt}{4pt}
+\titleformat{name=\subsubsection,numberless}{\raggedright\bfseries\normalsize}{}{0pt}{}
 \renewcommand{\contentsname}{สารบัญ}
+\renewcommand{\cfttoctitlefont}{\hfill\Large\bfseries}\renewcommand{\cftaftertoctitle}{\hfill}
+\setlength{\cftbeforetoctitleskip}{0pt}\setlength{\cftaftertoctitleskip}{18pt}
 \renewcommand{\cftchapleader}{\cftdotfill{\cftdotsep}}
 
 \pagestyle{fancy}\fancyhf{}\fancyhead[R]{\thepage}\renewcommand{\headrulewidth}{0pt}
 \fancypagestyle{plain}{\fancyhf{}\fancyhead[R]{\thepage}}
 
+\setlength{\RaggedRightParindent}{1.5em}
 \begin{document}
+\RaggedRight
 
 % ---------------------------------------------------------------- ปก
 \begin{titlepage}
 \centering
 {\Large\bfseries รายงานโครงงาน\par}
 \vspace{1.2cm}
-{\LARGE\bfseries การติดตั้งและรักษาความปลอดภัยเว็บไซต์ WordPress บนคลาวด์\\[4pt]
-เพื่อประชาสัมพันธ์สาขาวิชาวิทยาการคอมพิวเตอร์\par}
+{\Large\bfseries การติดตั้งและรักษาความปลอดภัย\\[4pt]
+เว็บไซต์ WordPress บนคลาวด์\\[4pt]
+เพื่อประชาสัมพันธ์สาขาวิชา\\[4pt]
+วิทยาการคอมพิวเตอร์\par}
 \vspace{0.6cm}
 {\large https://elephotelephus.site\par}
 \vspace{1.6cm}
 {\large จัดทำโดย\par}
 \vspace{0.3cm}
 \begin{tabular}{lll}
-1. & [ชื่อ--นามสกุล] & [รหัสนิสิต] \\
-2. & [ชื่อ--นามสกุล] & [รหัสนิสิต] \\
-3. & [ชื่อ--นามสกุล] & [รหัสนิสิต] \\
-4. & [ชื่อ--นามสกุล] & [รหัสนิสิต] \\
-5. & [ชื่อ--นามสกุล] & [รหัสนิสิต] \\
-6. & [ชื่อ--นามสกุล] & [รหัสนิสิต] \\
-7. & [ชื่อ--นามสกุล] & [รหัสนิสิต] \\
+1. & นายกนกกร บุญเขียว & 67160049 \\
+2. & นายสุกฤษฎ์ กาษร & 67160079 \\
+3. & นายณัฐสิทธิ์ จันทร์จิรานนท์ & 67160092 \\
+4. & นายภัทรกร รัศมีดิษฐ์ & 67160100 \\
+5. & นายเมธาภูมิ ศรีสวัสดิ์ & 67160102 \\
+6. & นายชยพัทธ์ อินทรศักดิ์ & 67160255 \\
+7. & นายภัครวรรธน์ แตรไตรรงค์ & 67160266 \\
 \end{tabular}
 \vfill
-{\large เสนอ [ชื่ออาจารย์ผู้สอน]\par}
+{\large เสนอ ผศ.ภูสิต กุลเกษม\par}
 \vspace{0.6cm}
-{\large รายงานนี้เป็นส่วนหนึ่งของรายวิชา [รหัสวิชา ชื่อวิชา]\\
+{\large รายงานนี้เป็นส่วนหนึ่งของรายวิชา\\
+88633065 Computer Networks (เครือข่ายคอมพิวเตอร์)\\
 คณะวิทยาการสารสนเทศ มหาวิทยาลัยบูรพา\\
-ภาคเรียนที่ [\_\_] ปีการศึกษา [\_\_\_\_]\par}
+ภาคเรียนที่ 1 ปีการศึกษา 2569\par}
 \end{titlepage}
 
 % ---------------------------------------------------------------- ส่วนหน้า

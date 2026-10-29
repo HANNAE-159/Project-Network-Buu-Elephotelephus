@@ -1,16 +1,17 @@
-\chapter*{บทที่ 3 การออกแบบระบบ}\addcontentsline{toc}{chapter}{บทที่ 3 การออกแบบระบบ}
+\thaichapter{บทที่ 3}{การออกแบบระบบ}\addcontentsline{toc}{chapter}{บทที่ 3 การออกแบบระบบ}
 
 \section*{3.1 สถาปัตยกรรมระบบ}\addcontentsline{toc}{section}{3.1 สถาปัตยกรรมระบบ}
 
 ระบบทั้งหมดทำงานบนเซิร์ฟเวอร์เสมือนเครื่องเดียว ทุกการเชื่อมต่อขาเข้าต้องผ่าน geo-firewall ก่อนถึงบริการใดๆ และฐานข้อมูลรับการเชื่อมต่อเฉพาะจากภายในเครื่อง
 
-\begin{center}\includegraphics[width=0.95\linewidth,keepaspectratio]{figures/architecture.png}\end{center}
+\begin{figure}[!htbp]
+\centering\includegraphics[width=1.00\linewidth,height=0.42\textheight,keepaspectratio]{figures/architecture.png}
+\caption*{\textbf{ภาพที่ 3.1} ผู้ใช้ถาม DNS แล้วเชื่อมต่อเซิร์ฟเวอร์ ทุกการเชื่อมต่อผ่าน geo-firewall ก่อน IP ไทยไปถึง nginx หรือ OpenSSH ส่วน IP ต่างประเทศถูก DROP และ secdash อ่าน log ทุกส่วนแล้วส่งสรุปให้ Gemini ทุกชั่วโมง}
+\end{figure}
 
-ภาพที่ 3.1 ผู้ใช้ถาม DNS แล้วเชื่อมต่อเซิร์ฟเวอร์ ทุกการเชื่อมต่อผ่าน geo-firewall ก่อน IP ไทยไปถึง nginx หรือ OpenSSH ส่วน IP ต่างประเทศถูก DROP และ secdash อ่าน log ทุกส่วนแล้วส่งสรุปให้ Gemini ทุกชั่วโมง
+\needspace{7\baselineskip}\noindent\textbf{ตารางที่ 3.1} ซอฟต์แวร์และเวอร์ชันที่ใช้ (จากไฟล์ versions.txt บนเซิร์ฟเวอร์)
 
-ตารางที่ 3.1 ซอฟต์แวร์และเวอร์ชันที่ใช้ (จากไฟล์ versions.txt บนเซิร์ฟเวอร์)
-
-\begin{longtable}[]{@{}>{\raggedright\arraybackslash}p{0.282\linewidth - 2\tabcolsep}>{\raggedright\arraybackslash}p{0.395\linewidth - 2\tabcolsep}>{\raggedright\arraybackslash}p{0.293\linewidth - 2\tabcolsep}@{}}
+\begingroup\small\begin{longtable}[]{@{}>{\raggedright\arraybackslash}p{0.295\linewidth - 2\tabcolsep}>{\raggedright\arraybackslash}p{0.373\linewidth - 2\tabcolsep}>{\raggedright\arraybackslash}p{0.303\linewidth - 2\tabcolsep}@{}}
 \toprule\noalign{}
 ส่วนประกอบ & เวอร์ชัน & หน้าที่ \\
 \midrule\noalign{}
@@ -21,15 +22,20 @@ Ubuntu Server & 24.04.5 LTS (kernel 7.0.0-1014-gcp) & ระบบปฏิบ�
 nginx & 1.24.0 & เว็บเซิร์ฟเวอร์ และ HTTPS \\
 PHP-FPM & 8.3.6 & รันโค้ด WordPress \\
 MySQL & 8.0.46 & ฐานข้อมูล \\
-WordPress & 7.1.3 & ระบบจัดการเนื้อหา \\
+WordPress & 7.1.4 & ระบบจัดการเนื้อหา \\
 OpenSSH & 9.6p1 & เข้าเซิร์ฟเวอร์ด้วยกุญแจ \\
 fail2ban & 1.0.2 & แบน IP ที่ทำผิดซ้ำ \\
 acme.sh & ใบรับรองจาก Let's Encrypt & ออกและต่ออายุใบรับรอง \\
 ipset + iptables & ตามที่ Ubuntu ให้มา & geo-firewall \\
 Python 3 (ไลบรารีมาตรฐาน) & ตามที่ Ubuntu ให้มา & ตัวเก็บข้อมูล secdash \\
-\end{longtable}
+\end{longtable}\endgroup
 
 คณะผู้จัดทำซ่อนเวอร์ชันเหล่านี้จากภายนอก (server\_tokens off และ expose\_php Off) เพื่อไม่ให้ผู้โจมตีเลือกช่องโหว่ที่ตรงกับเวอร์ชันได้ง่าย
+
+\begin{figure}[!htbp]
+\centering\includegraphics[width=0.50\linewidth,height=0.42\textheight,keepaspectratio]{figures/versions.png}
+\caption*{\textbf{ภาพที่ 3.2} ไฟล์ versions.txt ที่ setup.sh สร้างตอนติดตั้ง (22 ตุลาคม 2569) หลังจากนั้น WordPress อัปเดตตัวเองเป็น 7.1.4}
+\end{figure}
 
 \section*{3.2 การไหลของคำขอ}\addcontentsline{toc}{section}{3.2 การไหลของคำขอ}
 
@@ -54,9 +60,9 @@ Python 3 (ไลบรารีมาตรฐาน) & ตามที่ Ubunt
 
 คณะผู้จัดทำไม่พึ่งการป้องกันชั้นเดียว เพราะผู้โจมตีอาจใช้ IP ไทย เช่น VPN หรือเครื่องในไทยที่ถูกยึด แต่ละชั้นจึงรับมือการโจมตีคนละแบบ
 
-ตารางที่ 3.2 มาตรการป้องกันแต่ละชั้น
+\needspace{7\baselineskip}\noindent\textbf{ตารางที่ 3.2} มาตรการป้องกันแต่ละชั้น
 
-\begin{longtable}[]{@{}>{\raggedright\arraybackslash}p{0.115\linewidth - 2\tabcolsep}>{\raggedright\arraybackslash}p{0.427\linewidth - 2\tabcolsep}>{\raggedright\arraybackslash}p{0.427\linewidth - 2\tabcolsep}@{}}
+\begingroup\small\begin{longtable}[]{@{}>{\raggedright\arraybackslash}p{0.155\linewidth - 2\tabcolsep}>{\raggedright\arraybackslash}p{0.407\linewidth - 2\tabcolsep}>{\raggedright\arraybackslash}p{0.407\linewidth - 2\tabcolsep}@{}}
 \toprule\noalign{}
 ชั้น & มาตรการ & รับมือกับ \\
 \midrule\noalign{}
@@ -70,4 +76,4 @@ WordPress & 2FA · ชื่อผู้ดูแลเดายาก · DISALL
 ฐานข้อมูล & MySQL รับเฉพาะ 127.0.0.1 · ผู้ใช้ DB เฉพาะของ WordPress · เข้าดูผ่าน SSH tunnel & การเชื่อมต่อฐานข้อมูลจากภายนอก \\
 ดูแลระบบ & unattended-upgrades · สำรองข้อมูลทุกวัน · swap & ช่องโหว่ที่มีแพตช์แล้ว · ข้อมูลเสียหาย \\
 เฝ้าระวัง & secdash + AI (บทที่ 5) & มองเห็นการโจมตีที่เกิดขึ้นจริง \\
-\end{longtable}
+\end{longtable}\endgroup

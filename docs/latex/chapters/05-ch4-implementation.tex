@@ -1,4 +1,4 @@
-\chapter*{บทที่ 4 การติดตั้งและพัฒนา}\addcontentsline{toc}{chapter}{บทที่ 4 การติดตั้งและพัฒนา}
+\thaichapter{บทที่ 4}{การติดตั้งและพัฒนา}\addcontentsline{toc}{chapter}{บทที่ 4 การติดตั้งและพัฒนา}
 
 การติดตั้งส่วนใหญ่ทำผ่านสคริปต์ที่คณะผู้จัดทำเขียนขึ้น 3 ตัว ได้แก่ setup.sh (ติดตั้งระบบทั้งหมด) geo-firewall.sh (firewall ไทยเท่านั้น) และ secdash-install.sh (ระบบตรวจจับการโจมตี) ทำให้ติดตั้งซ้ำได้และตรวจสอบได้ว่าทำอะไรไปบ้าง
 
@@ -65,6 +65,11 @@ location = /wp-login.php { limit_req zone=wplogin burst=5 nodelay; ... }
 
 เหตุผลที่เลือก DNS-01 คือเมื่อเปิด geo-firewall แล้ว เครื่องตรวจของ Let's Encrypt ที่อยู่ต่างประเทศจะเข้าเว็บไม่ได้ การต่ออายุแบบ HTTP-01 จะล้มเหลว
 
+\begin{figure}[!htbp]
+\centering\includegraphics[width=0.51\linewidth,height=0.42\textheight,keepaspectratio]{figures/chrome-https.png}
+\caption*{\textbf{ภาพที่ 4.1} Chrome ยืนยันว่าใบรับรองถูกต้องและเชื่อถือได้ และเชื่อมต่อด้วย TLS 1.3}
+\end{figure}
+
 \subsection*{4.1.5 SSH}
 
 สร้างไฟล์ /etc/ssh/sshd\_config.d/00-hardening.conf ซึ่งถูกอ่านก่อนไฟล์อื่นในโฟลเดอร์เดียวกัน ค่าในไฟล์นี้จึงมีผลเสมอ
@@ -77,9 +82,19 @@ AuthenticationMethods publickey
 
 ก่อนรีโหลด sshd สคริปต์ตรวจไวยากรณ์ด้วย sshd -t เพื่อไม่ให้ไฟล์ตั้งค่าผิดจนเข้าเครื่องไม่ได้
 
+\begin{figure}[!htbp]
+\centering\includegraphics[width=0.79\linewidth,height=0.42\textheight,keepaspectratio]{figures/sshd-t.png}
+\caption*{\textbf{ภาพที่ 4.2} ค่าที่ sshd ใช้งานจริง: ปิด root ปิดรหัสผ่าน และยืนยันตัวตนด้วยกุญแจเท่านั้น}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering\includegraphics[width=0.50\linewidth,height=0.42\textheight,keepaspectratio]{figures/ssh-root-denied.png}
+\caption*{\textbf{ภาพที่ 4.3} ทดสอบ ssh ด้วยบัญชี root จากเครื่องภายนอก ได้ Permission denied (publickey)}
+\end{figure}
+
 \subsection*{4.1.6 fail2ban, อัปเดตอัตโนมัติ และสำรองข้อมูล}
 
-\begin{longtable}[]{@{}>{\raggedright\arraybackslash}p{0.260\linewidth - 2\tabcolsep}>{\raggedright\arraybackslash}p{0.710\linewidth - 2\tabcolsep}@{}}
+\begingroup\small\begin{longtable}[]{@{}>{\raggedright\arraybackslash}p{0.321\linewidth - 2\tabcolsep}>{\raggedright\arraybackslash}p{0.649\linewidth - 2\tabcolsep}@{}}
 \toprule\noalign{}
 รายการ & การตั้งค่า \\
 \midrule\noalign{}
@@ -92,7 +107,12 @@ jail wordpress-login & นับการ login ผิดจาก access log �
 jail nginx-limit-req & แบน IP ที่ถูก rate limit ซ้ำ \\
 unattended-upgrades & ติดตั้งแพตช์ความปลอดภัยอัตโนมัติ \\
 wp-backup.sh & สำรองฐานข้อมูลและไฟล์เว็บทุกวัน 03:30 น. เก็บ 7 วันที่ /var/backups/wordpress \\
-\end{longtable}
+\end{longtable}\endgroup
+
+\begin{figure}[!htbp]
+\centering\includegraphics[width=0.50\linewidth,height=0.42\textheight,keepaspectratio]{figures/fail2ban-status.png}
+\caption*{\textbf{ภาพที่ 4.4} fail2ban ทำงาน 3 jail: nginx-limit-req, sshd และ wordpress-login}
+\end{figure}
 
 \section*{4.2 ขั้นที่ 2: Geo-firewall รับเฉพาะ IP ไทย}\addcontentsline{toc}{section}{4.2 ขั้นที่ 2: Geo-firewall รับเฉพาะ IP ไทย}
 
@@ -132,6 +152,11 @@ iptables -I INPUT 1 -j GEO_IN
   คำสั่งที่ใช้ได้: apply, confirm, status, update, off
 \end{itemize}
 
+\begin{figure}[!htbp]
+\centering\includegraphics[width=1.00\linewidth,height=0.42\textheight,keepaspectratio]{figures/geo-firewall-status.png}
+\caption*{\textbf{ภาพที่ 4.5} สถานะ geo-firewall: ช่วง IP ไทย 1,167 ช่วง กฎ chain GEO\_IN (รวมกฎอนุญาต IP ของเซิร์ฟเวอร์เอง) และ log GEO-BLOCK ล่าสุด}
+\end{figure}
+
 \section*{4.3 ขั้นที่ 3: เว็บไซต์สาขาวิทยาการคอมพิวเตอร์}\addcontentsline{toc}{section}{4.3 ขั้นที่ 3: เว็บไซต์สาขาวิทยาการคอมพิวเตอร์}
 
 \subsection*{4.3.1 ธีม}
@@ -140,7 +165,7 @@ iptables -I INPUT 1 -j GEO_IN
 
 หน้าหลักของเว็บไซต์
 
-\begin{longtable}[]{@{}>{\raggedright\arraybackslash}p{0.246\linewidth - 2\tabcolsep}>{\raggedright\arraybackslash}p{0.724\linewidth - 2\tabcolsep}@{}}
+\begingroup\small\begin{longtable}[]{@{}>{\raggedright\arraybackslash}p{0.310\linewidth - 2\tabcolsep}>{\raggedright\arraybackslash}p{0.660\linewidth - 2\tabcolsep}@{}}
 \toprule\noalign{}
 หน้า & เนื้อหา \\
 \midrule\noalign{}
@@ -151,11 +176,26 @@ iptables -I INPUT 1 -j GEO_IN
 เกี่ยวกับสาขา & แสดงเนื้อหาที่แก้ได้จากตัวแก้ไขบทความ \\
 ข่าวสารและกิจกรรม & ข่าวที่นำเข้าจากเว็บไซต์คณะ \\
 หลักสูตร & หลักสูตรและรายละเอียดของสาขา \\
-\end{longtable}
+\end{longtable}\endgroup
+
+\begin{figure}[!htbp]
+\centering\includegraphics[width=1.00\linewidth,height=0.42\textheight,keepaspectratio]{figures/home-desktop.png}
+\caption*{\textbf{ภาพที่ 4.6} หน้าแรกของเว็บไซต์บนคอมพิวเตอร์}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering\includegraphics[width=0.84\linewidth,height=0.42\textheight,keepaspectratio]{figures/home-mobile.png}
+\caption*{\textbf{ภาพที่ 4.7} หน้าแรกบนมือถือ เมนูยุบเป็นปุ่ม และข้อความปรับขนาดให้อ่านง่าย}
+\end{figure}
 
 \subsection*{4.3.2 เนื้อหาที่แก้ไขได้จากหลังบ้าน}
 
 ข้อความทุกส่วนของธีมถูกกำหนดเป็นค่าตั้ง (setting) ใน WordPress Customizer ภายใต้แผง ``เนื้อหาเว็บไซต์'' ประมาณ 10 หมวด รวม 101 ค่า สมาชิกทีมแก้ข้อความและเห็นผลทันทีโดยไม่ต้องแก้โค้ด ถ้าลบหัวข้อของส่วนใดออก ส่วนนั้นจะซ่อนอัตโนมัติ ข้อความทุกจุดผ่านฟังก์ชัน escape ก่อนแสดงผล เพื่อป้องกัน XSS
+
+\begin{figure}[!htbp]
+\centering\includegraphics[width=1.00\linewidth,height=0.42\textheight,keepaspectratio]{figures/customizer.png}
+\caption*{\textbf{ภาพที่ 4.8} แก้ข้อความของเว็บไซต์ได้จาก Customizer โดยไม่ต้องแก้โค้ด}
+\end{figure}
 
 \subsection*{4.3.3 การนำเข้าข่าวจากเว็บไซต์คณะ}
 
@@ -188,15 +228,25 @@ WHERE p.post_type = 'post'
 ORDER BY p.post_date DESC;
 \end{Verbatim}
 
+\begin{figure}[!htbp]
+\centering\includegraphics[width=0.50\linewidth,height=0.42\textheight,keepaspectratio]{figures/dbeaver.png}
+\caption*{\textbf{ภาพที่ 4.9} DBeaver เชื่อมต่อ MySQL 8.0.46 ผ่าน SSH tunnel สำเร็จ}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering\includegraphics[width=1.00\linewidth,height=0.42\textheight,keepaspectratio]{figures/news-page.png}
+\caption*{\textbf{ภาพที่ 4.10} หน้าข่าวสารและกิจกรรมที่แสดงข่าวที่นำเข้าจากเว็บไซต์คณะ}
+\end{figure}
+
 \subsection*{4.3.4 บัญชีผู้ใช้และ 2FA}
 
 ผู้ดูแลเปิด 2FA ด้วยปลั๊กอิน Two-Factor สมาชิกคนอื่นได้บัญชีสิทธิ์ Editor ที่แก้เนื้อหาได้ แต่ติดตั้งปลั๊กอินหรือเปลี่ยนการตั้งค่าไม่ได้ ธีมและปลั๊กอินที่ไม่ได้ใช้ถูกลบออก เหลือเฉพาะธีมของคณะผู้จัดทำและปลั๊กอิน Two-Factor
 
-\section*{4.4 การตรวจความปลอดภัยเพิ่มเติมช่วงช่องโหว่ PHP (ตุลาคม 2569)}\addcontentsline{toc}{section}{4.4 การตรวจความปลอดภัยเพิ่มเติมช่วงช่องโหว่ PHP (ตุลาคม 2569)}
+\section*{4.4 การตรวจความปลอดภัยช่วงช่องโหว่ PHP (ต.ค. 2569)}\addcontentsline{toc}{section}{4.4 การตรวจความปลอดภัยช่วงช่องโหว่ PHP (ต.ค. 2569)}
 
 ปลายเดือนตุลาคม 2569 มีการประกาศช่องโหว่ร้ายแรงใน PHP คือ CVE-2026-109618 และ CVE-2026-109619 ซึ่งทำให้ผู้โจมตีรันโค้ดบนเซิร์ฟเวอร์ได้โดยไม่ต้องล็อกอิน และถูกนำไปใช้โจมตีจริงแล้ว รวมถึง CVE-2026-115560 ที่ยังไม่มีแพตช์ คณะผู้จัดทำจึงเขียนสคริปต์ security-check.sh เพื่อตรวจและแก้ไข
 
-\begin{longtable}[]{@{}>{\raggedright\arraybackslash}p{0.204\linewidth - 2\tabcolsep}>{\raggedright\arraybackslash}p{0.766\linewidth - 2\tabcolsep}@{}}
+\begingroup\small\begin{longtable}[]{@{}>{\raggedright\arraybackslash}p{0.275\linewidth - 2\tabcolsep}>{\raggedright\arraybackslash}p{0.695\linewidth - 2\tabcolsep}@{}}
 \toprule\noalign{}
 รายการ & วิธีตรวจ/แก้ \\
 \midrule\noalign{}
@@ -209,8 +259,23 @@ CVE-2026-115560 & ปิด session.upload\_progress.enabled ในการต�
 ตรวจการบุกรุก & หาไฟล์ PHP ในโฟลเดอร์ uploads, ไฟล์ PHP ที่ถูกแก้ใน 7 วัน, ตรวจไฟล์ WordPress core และปลั๊กอินกับต้นฉบับ (wp core verify-checksums) \\
 มุมมองคนนอก & ทดสอบว่า xmlrpc.php, .env, ?author=1 และ REST รายชื่อผู้ใช้ ถูกปฏิเสธ \\
 ระบบ & พอร์ตที่เปิด, MySQL รับเฉพาะ 127.0.0.1, SSH, fail2ban, geo-firewall, อัปเดตที่ค้าง \\
-\end{longtable}
+\end{longtable}\endgroup
 
 นอกจากนี้ธีมเวอร์ชัน 3.7.0 เพิ่มไฟล์ inc/hardening.php ปิดการไล่หาชื่อผู้ใช้สำหรับคนที่ไม่ได้ล็อกอิน (?author=N ได้ 403, REST /wp/v2/users ถูกซ่อน, sitemap และ oEmbed ไม่แสดงผู้เขียน) ซ่อนเวอร์ชัน WordPress และใช้ข้อความล็อกอินผิดแบบไม่บอกว่าชื่อผู้ใช้มีอยู่จริงหรือไม่
 
-ผลการรัน security-check.sh บนเซิร์ฟเวอร์จริง: {[}ใส่ภาพหน้าจอผลสรุป PASS/WARN/FAIL{]}
+ผลการรัน security-check.sh บนเซิร์ฟเวอร์จริง (29 ตุลาคม 2569)
+
+\begin{figure}[!htbp]
+\centering\includegraphics[width=1.00\linewidth,height=0.42\textheight,keepaspectratio]{figures/security-check-php.png}
+\caption*{\textbf{ภาพที่ 4.11} PHP-FPM ได้แพตช์แล้ว (8.3.6-0ubuntu0.24.04.13) และตั้งค่าลดความเสี่ยงครบ}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering\includegraphics[width=0.84\linewidth,height=0.42\textheight,keepaspectratio]{figures/wp-checksums.png}
+\caption*{\textbf{ภาพที่ 4.12} หลังดาวน์โหลด core ทับใหม่ ไฟล์ WordPress ทุกไฟล์ตรงกับต้นฉบับจาก wordpress.org}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering\includegraphics[width=0.56\linewidth,height=0.42\textheight,keepaspectratio]{figures/security-check-summary.png}
+\caption*{\textbf{ภาพที่ 4.13} ผลสรุป PASS 23 · WARN 2 · FAIL 0 โดย WARN ทั้งสองข้อตรวจแล้วอธิบายได้ คือไฟล์ที่เปลี่ยนจากการอัปเดต (ตรงกับต้นฉบับ) และพอร์ต 20201/20202 ของ Google Cloud Ops Agent ซึ่งคนภายนอกเข้าไม่ถึง}
+\end{figure}

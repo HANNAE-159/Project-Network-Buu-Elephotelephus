@@ -1,4 +1,4 @@
-\chapter*{บทที่ 5 ระบบตรวจจับการโจมตีและ dashboard ด้วย AI}\addcontentsline{toc}{chapter}{บทที่ 5 ระบบตรวจจับการโจมตีและ dashboard ด้วย AI}
+\thaichapter{บทที่ 5}{ระบบตรวจจับการโจมตีและ dashboard ด้วย AI}\addcontentsline{toc}{chapter}{บทที่ 5 ระบบตรวจจับการโจมตีและ dashboard ด้วย AI}
 
 ส่วนนี้เป็นงานเพิ่มเติมจากโจทย์ ตามแนวคิดที่อาจารย์เสนอให้ใช้ AI สแกน log ตามรอบเวลาแล้วทำ dashboard สำหรับตรวจการโจมตี ระบบมีชื่อว่า secdash ประกอบด้วยสองส่วน คือตัวเก็บข้อมูลบนเซิร์ฟเวอร์ และหน้า ``ความปลอดภัย'' ในหลังบ้าน WordPress
 
@@ -6,7 +6,7 @@
 
 สคริปต์ Python ที่ใช้เฉพาะไลบรารีมาตรฐาน รันด้วย cron ทุก 10 นาที อ่าน log ย้อนหลัง 7 วันจาก 4 แหล่ง
 
-\begin{longtable}[]{@{}>{\raggedright\arraybackslash}p{0.121\linewidth - 2\tabcolsep}>{\raggedright\arraybackslash}p{0.364\linewidth - 2\tabcolsep}>{\raggedright\arraybackslash}p{0.485\linewidth - 2\tabcolsep}@{}}
+\begingroup\small\begin{longtable}[]{@{}>{\raggedright\arraybackslash}p{0.167\linewidth - 2\tabcolsep}>{\raggedright\arraybackslash}p{0.361\linewidth - 2\tabcolsep}>{\raggedright\arraybackslash}p{0.442\linewidth - 2\tabcolsep}@{}}
 \toprule\noalign{}
 แหล่ง & อ่านจาก & สิ่งที่ได้ \\
 \midrule\noalign{}
@@ -17,7 +17,7 @@ nginx & access log (รวมไฟล์ที่ถูกบีบอัด) &
 SSH & systemd journal & เข้าสำเร็จ เข้าไม่สำเร็จ ชื่อผู้ใช้ที่ไม่มีอยู่ \\
 Geo-firewall & kernel log ที่ขึ้นต้นด้วย GEO-BLOCK: & IP ต่างประเทศที่ถูกบล็อก และพอร์ตที่พยายามต่อ \\
 fail2ban & fail2ban.log และ fail2ban-client & IP ที่ถูกแบนและ jail ที่แบน \\
-\end{longtable}
+\end{longtable}\endgroup
 
 คำขอแต่ละรายการถูกเทียบกับรูปแบบ (regular expression) เพื่อจัดประเภท แต่ละประเภทมีคะแนนความรุนแรง คะแนนของ IP คือผลรวมของทุกเหตุการณ์ ประเภทที่ตรวจ ได้แก่ SQL injection, XSS, path traversal, สแกนไฟล์ลับ, เครื่องมือสแกน (ดูจาก User-Agent), ไล่หาชื่อผู้ใช้ WordPress, เรียก xmlrpc.php, login WordPress ผิด, ถูก rate limit, สุ่มหา URL จำนวนมาก (404 ตั้งแต่ 50 ครั้ง), SSH เดารหัส, ถูก geo-firewall บล็อก และถูก fail2ban แบน
 
@@ -59,7 +59,7 @@ fail2ban & fail2ban.log และ fail2ban-client & IP ที่ถูกแบ�
 
 หน้า ``ความปลอดภัย'' อยู่ในหลังบ้าน WordPress แสดงเฉพาะผู้ดูแล (สิทธิ์ manage\_options) ประกอบด้วย
 
-\begin{longtable}[]{@{}>{\raggedright\arraybackslash}p{0.293\linewidth - 2\tabcolsep}>{\raggedright\arraybackslash}p{0.677\linewidth - 2\tabcolsep}@{}}
+\begingroup\small\begin{longtable}[]{@{}>{\raggedright\arraybackslash}p{0.347\linewidth - 2\tabcolsep}>{\raggedright\arraybackslash}p{0.623\linewidth - 2\tabcolsep}@{}}
 \toprule\noalign{}
 ส่วน & แสดง \\
 \midrule\noalign{}
@@ -73,6 +73,6 @@ fail2ban & fail2ban.log และ fail2ban-client & IP ที่ถูกแบ�
 IP ที่น่าสงสัยที่สุด & IP · ที่มา (ไทย/ต่างประเทศ) · พฤติกรรม · คะแนน · จำนวนครั้ง · ล่าสุด · สถานะแบน \\
 การเข้าระบบล่าสุด & login SSH และ WordPress ที่สำเร็จ \\
 เหตุการณ์ล่าสุด & เหตุการณ์ที่มีความเสี่ยง 60 รายการล่าสุด \\
-\end{longtable}
+\end{longtable}\endgroup
 
 ข้อมูลทุกช่องที่มาจาก log แสดงผ่าน esc\_html เพราะ URL และ User-Agent เป็นข้อความที่ผู้โจมตีกำหนดเองได้ หากแสดงตรงๆ dashboard เองจะกลายเป็นช่องโหว่ XSS

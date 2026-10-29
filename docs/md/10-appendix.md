@@ -23,22 +23,20 @@ sudo journalctl -k --since -1d --grep GEO-BLOCK | tail
 sudo python3 /usr/local/sbin/secdash-collect.py
 ```
 
-&#91;ตรวจตำแหน่งไฟล์ versions.txt และ geo-firewall.sh บนเซิร์ฟเวอร์จริงก่อนส่ง\]
+### ภาคผนวก ข ดัชนีภาพหน้าจอ
 
-### ภาคผนวก ข ภาพหน้าจอประกอบ
-
-ใส่ภาพตามลำดับ พร้อมคำบรรยายใต้ภาพ
-
-- [ ] ภาพ ข.1 หน้าแรกของเว็บไซต์บนคอมพิวเตอร์และมือถือ (เห็นรูปแม่กุญแจ HTTPS)
-- [ ] ภาพ ข.2 ผล sudo sshd -T
-- [ ] ภาพ ข.3 ssh root ถูกปฏิเสธ
-- [ ] ภาพ ข.4 ไฟล์ versions.txt
-- [ ] ภาพ ข.5 fail2ban-client status
-- [ ] ภาพ ข.6 ผล check-host.net ที่เครื่องต่างประเทศ timeout
-- [ ] ภาพ ข.7 geo-firewall status และ log GEO-BLOCK
-- [ ] ภาพ ข.8 หน้าตั้งค่า “เนื้อหาเว็บไซต์” ใน Customizer
-- [ ] ภาพ ข.9 ข่าวที่นำเข้าใน DBeaver (ต่อผ่าน SSH tunnel)
-- [ ] ภาพ ข.10 หน้า dashboard “ความปลอดภัย” และกล่องสรุปจาก AI
+| หลักฐาน | ภาพ |
+| --- | --- |
+| แผนภาพสถาปัตยกรรม และ versions.txt | ภาพที่ 3.1–3.2 |
+| HTTPS ใน Chrome (ใบรับรองถูกต้อง, TLS 1.3) | ภาพที่ 4.1 |
+| SSH: sshd -T และ root ถูกปฏิเสธ | ภาพที่ 4.2–4.3 |
+| fail2ban 3 jail | ภาพที่ 4.4 |
+| geo-firewall status และ log GEO-BLOCK | ภาพที่ 4.5, 6.2 |
+| หน้าแรกบนคอมพิวเตอร์และมือถือ | ภาพที่ 4.6–4.7 |
+| Customizer, DBeaver ผ่าน SSH tunnel, หน้าข่าวสาร | ภาพที่ 4.8–4.10 |
+| security-check: แพตช์ PHP, checksum, ผลสรุป FAIL 0 | ภาพที่ 4.11–4.13 |
+| check-host.net: ต่างประเทศเข้าไม่ได้ | ภาพที่ 6.1 |
+| dashboard ตรวจการโจมตีและ AI | ภาพที่ 6.3–6.6 |
 
 ### ภาคผนวก ค รายการไฟล์ที่พัฒนา
 

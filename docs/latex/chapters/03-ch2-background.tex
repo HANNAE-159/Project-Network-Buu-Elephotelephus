@@ -1,4 +1,4 @@
-\chapter*{บทที่ 2 ทฤษฎีและเทคโนโลยีที่เกี่ยวข้อง}\addcontentsline{toc}{chapter}{บทที่ 2 ทฤษฎีและเทคโนโลยีที่เกี่ยวข้อง}
+\thaichapter{บทที่ 2}{ทฤษฎีและเทคโนโลยีที่เกี่ยวข้อง}\addcontentsline{toc}{chapter}{บทที่ 2 ทฤษฎีและเทคโนโลยีที่เกี่ยวข้อง}
 
 \section*{2.1 เซิร์ฟเวอร์เสมือนบนคลาวด์ (Cloud VM)}\addcontentsline{toc}{section}{2.1 เซิร์ฟเวอร์เสมือนบนคลาวด์ (Cloud VM)}
 
@@ -28,7 +28,7 @@ DNS แปลงชื่อโดเมนเป็นหมายเลข IP 
 
 HTTPS คือ HTTP ที่เข้ารหัสด้วย TLS เบราว์เซอร์ตรวจสอบตัวตนเว็บไซต์จากใบรับรอง (certificate) ที่ออกโดยหน่วยงานที่เชื่อถือได้ Let's Encrypt ออกใบรับรองฟรีผ่านโปรโตคอล ACME (RFC 8555) โดยผู้ขอต้องพิสูจน์ว่าควบคุมโดเมนจริง มี 2 วิธีหลัก
 
-\begin{longtable}[]{@{}>{\raggedright\arraybackslash}p{0.113\linewidth - 2\tabcolsep}>{\raggedright\arraybackslash}p{0.525\linewidth - 2\tabcolsep}>{\raggedright\arraybackslash}p{0.332\linewidth - 2\tabcolsep}@{}}
+\begingroup\small\begin{longtable}[]{@{}>{\raggedright\arraybackslash}p{0.152\linewidth - 2\tabcolsep}>{\raggedright\arraybackslash}p{0.474\linewidth - 2\tabcolsep}>{\raggedright\arraybackslash}p{0.344\linewidth - 2\tabcolsep}@{}}
 \toprule\noalign{}
 วิธียืนยัน & วิธีทำงาน & ใช้ได้เมื่อปิดต่างประเทศ \\
 \midrule\noalign{}
@@ -37,7 +37,7 @@ HTTPS คือ HTTP ที่เข้ารหัสด้วย TLS เบร
 \endlastfoot
 HTTP-01 & Let's Encrypt เข้ามาอ่านไฟล์ที่เว็บไซต์ผ่านพอร์ต 80 & ไม่ได้ เพราะเครื่องตรวจอยู่ต่างประเทศ \\
 DNS-01 & ผู้ขอสร้าง TXT record ที่กำหนด แล้ว Let's Encrypt ตรวจที่ DNS & ได้ เพราะไม่ต้องเข้าเซิร์ฟเวอร์ \\
-\end{longtable}
+\end{longtable}\endgroup
 
 โครงงานนี้ใช้ DNS-01 ผ่านโปรแกรม acme.sh และ API ของ Cloudflare
 
@@ -63,7 +63,7 @@ fail2ban อ่าน log ของบริการต่างๆ เมื�
 
 ระบบตรวจจับในบทที่ 5 จัดประเภทการโจมตีตามแนวคิดที่ใช้กันทั่วไป เช่น OWASP Top 10
 
-\begin{longtable}[]{@{}>{\raggedright\arraybackslash}p{0.293\linewidth - 2\tabcolsep}>{\raggedright\arraybackslash}p{0.677\linewidth - 2\tabcolsep}@{}}
+\begingroup\small\begin{longtable}[]{@{}>{\raggedright\arraybackslash}p{0.347\linewidth - 2\tabcolsep}>{\raggedright\arraybackslash}p{0.623\linewidth - 2\tabcolsep}@{}}
 \toprule\noalign{}
 ประเภท & ความหมาย \\
 \midrule\noalign{}
@@ -76,7 +76,7 @@ Path traversal & ใช้ ../ เพื่ออ่านไฟล์นอก�
 สแกนไฟล์ลับ & ไล่ขอไฟล์ที่มักเก็บรหัสผ่าน เช่น .env หรือ .git \\
 User enumeration & ไล่หาชื่อผู้ใช้ WordPress เพื่อนำไปเดารหัส \\
 Brute force & เดารหัสผ่านซ้ำๆ ทั้งหน้า login และ SSH \\
-\end{longtable}
+\end{longtable}\endgroup
 
 \section*{2.10 โมเดลภาษาขนาดใหญ่ (LLM)}\addcontentsline{toc}{section}{2.10 โมเดลภาษาขนาดใหญ่ (LLM)}
 

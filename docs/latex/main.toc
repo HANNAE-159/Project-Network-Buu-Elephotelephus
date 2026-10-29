@@ -1,0 +1,45 @@
+\contentsline {chapter}{คำนำ}{i}{section*.1}%
+\contentsline {chapter}{บทที่ 1 บทนำ}{1}{section*.2}%
+\contentsline {section}{1.1 ที่มาและความสำคัญ}{1}{section*.3}%
+\contentsline {section}{1.2 วัตถุประสงค์}{1}{section*.3}%
+\contentsline {section}{1.3 ขอบเขตของโครงงาน}{2}{Item.6}%
+\contentsline {section}{1.4 ประโยชน์ที่คาดว่าจะได้รับ}{2}{Item.6}%
+\contentsline {chapter}{บทที่ 2 ทฤษฎีและเทคโนโลยีที่เกี่ยวข้อง}{3}{section*.4}%
+\contentsline {section}{2.1 เซิร์ฟเวอร์เสมือนบนคลาวด์ (Cloud VM)}{3}{section*.5}%
+\contentsline {section}{2.2 LEMP stack}{3}{section*.5}%
+\contentsline {section}{2.3 ระบบชื่อโดเมน (DNS)}{3}{section*.5}%
+\contentsline {section}{2.4 HTTPS, TLS และ ACME}{4}{section*.5}%
+\contentsline {section}{2.5 SSH และการยืนยันตัวตนด้วยกุญแจสาธารณะ}{4}{table.0.1}%
+\contentsline {section}{2.6 Netfilter, iptables และ ipset}{4}{table.0.1}%
+\contentsline {section}{2.7 fail2ban}{5}{table.0.1}%
+\contentsline {section}{2.8 การยืนยันตัวตนสองปัจจัย (2FA)}{5}{table.0.1}%
+\contentsline {section}{2.9 การโจมตีเว็บที่พบบ่อย}{5}{table.0.1}%
+\contentsline {section}{2.10 โมเดลภาษาขนาดใหญ่ (LLM)}{6}{table.0.2}%
+\contentsline {chapter}{บทที่ 3 การออกแบบระบบ}{7}{section*.6}%
+\contentsline {section}{3.1 สถาปัตยกรรมระบบ}{7}{section*.7}%
+\contentsline {section}{3.2 การไหลของคำขอ}{9}{figure.caption.9}%
+\contentsline {section}{3.3 การป้องกันหลายชั้น (Defense in depth)}{9}{Item.15}%
+\contentsline {chapter}{บทที่ 4 การติดตั้งและพัฒนา}{11}{section*.10}%
+\contentsline {section}{4.1 ขั้นที่ 1: เซิร์ฟเวอร์ โดเมน HTTPS และ SSH}{11}{section*.11}%
+\contentsline {section}{4.2 ขั้นที่ 2: Geo-firewall รับเฉพาะ IP ไทย}{14}{figure.caption.15}%
+\contentsline {section}{4.3 ขั้นที่ 3: เว็บไซต์สาขาวิทยาการคอมพิวเตอร์}{16}{figure.caption.16}%
+\contentsline {section}{4.4 การตรวจความปลอดภัยช่วงช่องโหว่ PHP (ต.ค. 2569)}{19}{figure.caption.21}%
+\contentsline {chapter}{บทที่ 5 ระบบตรวจจับการโจมตีและ dashboard ด้วย AI}{22}{section*.25}%
+\contentsline {section}{5.1 ตัวเก็บข้อมูล (secdash-collect.py)}{22}{section*.26}%
+\contentsline {section}{5.2 การลดการแจ้งเตือนผิด (false positive)}{23}{table.0.8}%
+\contentsline {section}{5.3 การวิเคราะห์ด้วย AI}{23}{table.0.8}%
+\contentsline {section}{5.4 หน้า dashboard}{24}{table.0.8}%
+\contentsline {chapter}{บทที่ 6 การทดสอบและผลการดำเนินงาน}{26}{section*.27}%
+\contentsline {section}{6.1 ผลการทดสอบตามข้อกำหนด}{26}{section*.28}%
+\contentsline {section}{6.2 การโจมตีที่ตรวจพบจริง}{27}{figure.caption.30}%
+\contentsline {section}{6.3 การตรวจสอบคำแนะนำของ AI}{29}{figure.caption.34}%
+\contentsline {chapter}{บทที่ 7 สรุป ปัญหา และข้อเสนอแนะ}{33}{section*.35}%
+\contentsline {section}{7.1 สรุปผล}{33}{section*.36}%
+\contentsline {section}{7.2 ปัญหาและแนวทางแก้ไข}{33}{section*.36}%
+\contentsline {section}{7.3 ข้อจำกัด}{35}{table.0.13}%
+\contentsline {section}{7.4 ข้อเสนอแนะ}{36}{table.0.13}%
+\contentsline {chapter}{บรรณานุกรม}{37}{section*.37}%
+\contentsline {chapter}{ภาคผนวก}{39}{section*.38}%
+\contentsline {section}{ภาคผนวก ก คำสั่งตรวจสอบระบบ}{39}{section*.39}%
+\contentsline {section}{ภาคผนวก ข ดัชนีภาพหน้าจอ}{39}{section*.39}%
+\contentsline {section}{ภาคผนวก ค รายการไฟล์ที่พัฒนา}{40}{table.0.14}%
