@@ -36,6 +36,38 @@ def floats(tex):
         return f"\\begin{{figure}}[H]\n{body}\n\\end{{figure}}"
     return re.sub(r"@@FIG\{([\d.]+)\}\{([^}]*)\}@@(?:\s*\n\s*\n(ภาพที่ [^\n]*(?:\n(?!\n)[^\n]*)*))?", fig, tex)
 
+def img_size(path):
+    """(กว้าง, สูง) ของ PNG/JPEG โดยไม่ต้องใช้ไลบรารีเพิ่ม"""
+    try:
+        b = (ROOT / path).read_bytes()
+    except OSError:
+        return None
+    if b[:8] == b"\x89PNG\r\n\x1a\n":
+        return int.from_bytes(b[16:20], "big"), int.from_bytes(b[20:24], "big")
+    if b[:2] == b"\xff\xd8":
+        i = 2
+        while i < len(b) - 9:
+            if b[i] != 0xFF: i += 1; continue
+            m, ln = b[i + 1], int.from_bytes(b[i + 2:i + 4], "big")
+            if m in (0xC0, 0xC1, 0xC2):
+                return int.from_bytes(b[i + 7:i + 9], "big"), int.from_bytes(b[i + 5:i + 7], "big")
+            i += 2 + ln
+    return None
+
+def pair_figures(tex):
+    """ภาพแนวนอนที่ตามด้วยภาพแนวตั้ง (เช่น หน้าเว็บบนคอมพิวเตอร์ + มือถือ) วางคู่กันในหน้าเดียว"""
+    fig = r"\\begin\{figure\}\[H\]\n\\centering\\includegraphics\[[^\]]*\]\{([^}]*)\}\n(\\caption\*\{[^\n]*?\}\\addcontentsline\{lof\}\{figure\}\{[^}\n]*\})\n\\end\{figure\}"
+    def rep(m):
+        a, ca, b, cb = m.group(1), m.group(2), m.group(3), m.group(4)
+        sa, sb = img_size(a), img_size(b)
+        if not (sa and sb and sa[0] > sa[1] and sb[1] > sb[0]):
+            return m.group(0)
+        return ("\\begin{figure}[H]\n\\centering\n"
+                f"\\begin{{minipage}}[t]{{0.62\\linewidth}}\\centering\\includegraphics[width=\\linewidth]{{{a}}}\n{ca}\n\\end{{minipage}}\\hfill\n"
+                f"\\begin{{minipage}}[t]{{0.33\\linewidth}}\\centering\\includegraphics[width=\\linewidth,height=0.42\\textheight,keepaspectratio]{{{b}}}\n{cb}\n\\end{{minipage}}\n"
+                "\\end{figure}")
+    return re.sub(fig + r"[ \t]*\n\s*\n" + fig, rep, tex)
+
 def widen(m):
     """ตารางกว้างตามเนื้อหา: แบ่งความกว้างคอลัมน์ตามความยาวข้อความ ให้ตัดบรรทัดได้ไม่ล้นขอบ"""
     n, body = len(m.group(1)), m.group(2)
@@ -82,6 +114,11 @@ def keep_together(tex):
     """จัดหัวข้อ/ข้อความไม่ให้ค้างท้ายหน้า"""
     # 1) ย่อหน้าสั้นที่นำหน้ารูป (เช่น "ผลการรัน ... ") ห้ามแยกหน้าจากรูป
     tex = re.sub(r"(?m)^([^\\\n][^\n]{0,160})\n\n(\\begin\{figure\}\[H\])", r"\1\\par\\nopagebreak[4]\n\n\2", tex)
+    # 1b) ย่อหน้าสั้นที่นำหน้าตารางสั้น: ไม่ตัดกลางย่อหน้า และไม่แยกหน้าจากตาราง (หัวข้อก่อนหน้าจึงไปด้วยกัน)
+    tex = re.sub(r"(?m)^([^\\\n][^\n]{0,500})\n\n(\\par\\vspace\{\\LTpre\}\\noindent\\begin\{minipage\})",
+                 r"{\\interlinepenalty=10000 \1\\par}\\nopagebreak[4]\n\n\2", tex)
+    # 1c) หมายเหตุ ไม่แบ่งข้ามหน้า
+    tex = re.sub(r"(?m)^(หมายเหตุ:[^\n]*)$", r"{\\interlinepenalty=10000 \1\\par}", tex)
     # 2) หัวข้อที่ตามด้วยเนื้อหาสั้น (รายการ ย่อหน้า ตารางสั้น) ให้ขึ้นหน้าใหม่พร้อมเนื้อหาถ้าที่เหลือไม่พอ
     parts = re.split(r"(?m)^(?=\\(?:sub)*section\*\{)", tex)
     out = [parts[0]]
@@ -122,6 +159,7 @@ def convert(md: pathlib.Path) -> str:
     tex = re.sub(r"\\(chapter|section|subsection|subsubsection)\{(.*?)\}\\label\{[^}]*\}\}?", head, tex, flags=re.S)
     tex = re.sub(r"\\includegraphics\{([^}]*)\}", figure, tex)
     tex = floats(tex)
+    tex = pair_figures(tex)
     tex = re.sub(r"(?m)^(ตารางที่ [\dก-ฮ]+\.\d+)", r"\\keepspace{7\\baselineskip}\\noindent\\textbf{\1}", tex)
     tex = re.sub(r"\\begin\{longtable\}\[\]\{@\{\}(l+)@\{\}\}(.*?)\\end\{longtable\}", widen, tex, flags=re.S)
     tex = attach_captions(tex)
